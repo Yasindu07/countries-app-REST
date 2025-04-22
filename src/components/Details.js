@@ -12,17 +12,17 @@ export default function Details({
 }) {
   return (
     <Link to={`/${name?.common}`}>
-      <article className="bg-white rounded-lg hover:bg-gray-200 transition-all shadow overflow-hidden duration-150">
+      <article className="bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all shadow overflow-hidden duration-150">
         <img
           src={flags?.svg}
           alt={`Flag of ${name?.common}`}
           className="md:h-72 w-full object-cover"
         />
         <div className="p-4">
-          <h2 className="font-bold text-lg text-grey-900 mb-2">
+          <h2 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
             {name?.common || "N/A"}
           </h2>
-          <ul className="flex flex-col items-start justify-start gap-2">
+          <ul className="flex flex-col items-start justify-start gap-2 text-gray-700 dark:text-gray-300">
             <li>Population: {population?.toLocaleString() || "N/A"}</li>
             <li>Region: {region || "N/A"}</li>
             <li>Subregion: {subregion || "N/A"}</li>

@@ -25,21 +25,25 @@ export default function OneCountry() {
   }
 
   return (
-    <section className="p-8 md:py-0 max-w-7xl mx-auto">
+    <section className="p-8 md:py-0 max-w-7xl mx-auto text-gray-900 dark:text-white">
       {country.map((item) => (
         <div
           key={item.population}
           className="grid grid-cols-1 gap-8 md:grid-cols-2 md:place-items-center md:h-screen"
         >
           <article>
-            <img src={item.flags.svg} alt={`Flag of ${item.name.common}`} />
+            <img
+              src={item.flags.svg}
+              alt={`Flag of ${item.name.common}`}
+              className="shadow-lg"
+            />
           </article>
 
           <article>
-            <h1 className="mb-8 font-bold text-gray-900 text-4xl lg:text-6xl">
+            <h1 className="mb-8 font-bold text-4xl lg:text-6xl">
               {item.name.official}
             </h1>
-            <ul className="my-4 flex flex-col items-start justify-start gap-2 text-slate-600">
+            <ul className="my-4 flex flex-col items-start gap-2 text-gray-700 dark:text-gray-300">
               <li>Population: {item.population.toLocaleString()}</li>
               <li>Region: {item.region}</li>
               <li>Subregion: {item.subregion}</li>
@@ -67,7 +71,7 @@ export default function OneCountry() {
                 item.borders.map((border, index) => (
                   <li
                     key={index}
-                    className="bg-white p-2 rounded text-sm tracking-wide shadow"
+                    className="bg-white dark:bg-gray-700 p-2 rounded text-sm tracking-wide shadow"
                   >
                     {border}
                   </li>
@@ -78,7 +82,7 @@ export default function OneCountry() {
             </ul>
             <Link
               to="/"
-              className="inline-block mt-8 bg-white py-2 px-6 rounded shadow text-gray-700 hover:bg-grey-200 transition-all duration-150"
+              className="inline-block mt-8 bg-white dark:bg-gray-700 py-2 px-6 rounded shadow text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-150"
             >
               &larr; Back to Home
             </Link>
