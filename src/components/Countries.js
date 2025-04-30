@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Details from "./Details";
+import OneCountry from "./OneCountry";
 
 export default function Countries() {
   const [countries, setCountries] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const itemsPerPage = 9;
 
   const regions = [
@@ -99,7 +101,11 @@ export default function Countries() {
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {currentCountries.map((country) => (
-          <Details key={country.name.common} {...country} />
+          <Details
+            key={country.name.common}
+            {...country}
+            onClick={() => setSelectedCountry(country.name.common)}
+          />
         ))}
       </div>
 
@@ -126,6 +132,26 @@ export default function Countries() {
           Next
         </button>
       </div>
+
+      {selectedCountry && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+          onClick={() => setSelectedCountry(null)}
+        >
+          <div
+            className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg w-[90vw] sm:w-[80vw] md:w-[70vw] lg:w-[60vw] xl:w-[50vw] max-h-[90vh] overflow-y-auto relative shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedCountry(null)}
+              className="absolute top-4 right-4 text-gray-800 dark:text-white text-xl font-bold"
+            >
+              &times;
+            </button>
+            <OneCountry countryName={selectedCountry} />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

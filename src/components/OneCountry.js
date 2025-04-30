@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
-export default function OneCountry() {
+export default function OneCountry({ countryName }) {
   const [country, setCountry] = useState(null);
-  const { name } = useParams();
 
   useEffect(() => {
     const getOneCountry = async () => {
       try {
         const res = await axios.get(
-          `https://restcountries.com/v3.1/name/${name}?fullText=true`
+          `https://restcountries.com/v3.1/name/${countryName}?fullText=true`
         );
         setCountry(res.data);
       } catch (error) {
@@ -18,19 +16,16 @@ export default function OneCountry() {
       }
     };
     getOneCountry();
-  }, [name]);
+  }, [countryName]);
 
   if (!country) {
     return <h1 className="text-center text-2xl font-bold">Loading...</h1>;
   }
 
   return (
-    <section className="p-8 md:py-0 max-w-7xl mx-auto text-gray-900 dark:text-white">
+    <section className="p-4 text-gray-900 dark:text-white">
       {country.map((item) => (
-        <div
-          key={item.population}
-          className="grid grid-cols-1 gap-8 md:grid-cols-2 md:place-items-center md:h-screen"
-        >
+        <div key={item.population} className="grid gap-8 md:grid-cols-2">
           <article>
             <img
               src={item.flags.svg}
@@ -40,10 +35,8 @@ export default function OneCountry() {
           </article>
 
           <article>
-            <h1 className="mb-8 font-bold text-4xl lg:text-6xl">
-              {item.name.official}
-            </h1>
-            <ul className="my-4 flex flex-col items-start gap-2 text-gray-700 dark:text-gray-300">
+            <h1 className="mb-6 font-bold text-3xl">{item.name.official}</h1>
+            <ul className="mb-4 flex flex-col items-start gap-2 text-gray-700 dark:text-gray-300">
               <li>Population: {item.population.toLocaleString()}</li>
               <li>Region: {item.region}</li>
               <li>Subregion: {item.subregion}</li>
@@ -71,7 +64,7 @@ export default function OneCountry() {
                 item.borders.map((border, index) => (
                   <li
                     key={index}
-                    className="bg-white dark:bg-gray-700 p-2 rounded text-sm tracking-wide shadow"
+                    className="bg-white dark:bg-gray-700 p-2 rounded text-sm shadow"
                   >
                     {border}
                   </li>
@@ -80,12 +73,6 @@ export default function OneCountry() {
                 <li>No border countries</li>
               )}
             </ul>
-            <Link
-              to="/"
-              className="inline-block mt-8 bg-white dark:bg-gray-700 py-2 px-6 rounded shadow text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-150"
-            >
-              &larr; Back to Home
-            </Link>
           </article>
         </div>
       ))}

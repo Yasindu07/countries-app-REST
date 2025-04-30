@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export default function Details({
   flags,
@@ -9,9 +8,10 @@ export default function Details({
   subregion,
   languages,
   capital,
+  onClick,
 }) {
   return (
-    <Link to={`/${name?.common}`}>
+    <div onClick={onClick} className="cursor-pointer">
       <article className="bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-all shadow overflow-hidden duration-150">
         <img
           src={flags?.svg}
@@ -34,6 +34,6 @@ export default function Details({
           </ul>
         </div>
       </article>
-    </Link>
+    </div>
   );
 }
