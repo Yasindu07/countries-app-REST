@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Details({
+export default function CountryCard({
   flags,
   name,
   population,
@@ -16,13 +16,13 @@ export default function Details({
         <img
           src={flags?.svg}
           alt={`Flag of ${name?.common}`}
-          className="md:h-72 w-full object-cover"
+          className="w-full h-56 object-cover"
         />
         <div className="p-4">
           <h2 className="font-bold text-lg text-gray-900 dark:text-white mb-2">
             {name?.common || "N/A"}
           </h2>
-          <ul className="flex flex-col items-start justify-start gap-2 text-gray-700 dark:text-gray-300">
+          <ul className="text-gray-700 dark:text-gray-300 space-y-1">
             <li>Population: {population?.toLocaleString() || "N/A"}</li>
             <li>Region: {region || "N/A"}</li>
             <li>Subregion: {subregion || "N/A"}</li>

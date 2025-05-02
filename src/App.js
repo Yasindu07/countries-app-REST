@@ -1,32 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Countries from "./components/Countries";
-import OneCountry from "./components/OneCountry";
+import CountriesPage from "./pages/CountriesPage";
 import Header from "./components/Header";
+import useDarkMode from "./hooks/useDarkMode";
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
+  const [darkMode, toggleDarkMode] = useDarkMode();
 
   return (
     <Router>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <Routes>
-          <Route path="/" element={<Countries />} />
-          <Route path="/:name" element={<OneCountry />} />
+          <Route path="/" element={<CountriesPage />} />
         </Routes>
       </div>
     </Router>

@@ -1,42 +1,32 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { getCountryDetails } from "../services/countryService";
 
-export default function OneCountry({ countryName }) {
+export default function CountryDetailsPage({ countryName }) {
   const [country, setCountry] = useState(null);
 
   useEffect(() => {
-    const getOneCountry = async () => {
-      try {
-        const res = await axios.get(
-          `https://restcountries.com/v3.1/name/${countryName}?fullText=true`
-        );
-        setCountry(res.data);
-      } catch (error) {
-        console.error("Error fetching country:", error);
-      }
-    };
-    getOneCountry();
+    async function fetchData() {
+      const data = await getCountryDetails(countryName);
+      setCountry(data);
+    }
+    fetchData();
   }, [countryName]);
 
-  if (!country) {
+  if (!country)
     return <h1 className="text-center text-2xl font-bold">Loading...</h1>;
-  }
 
   return (
     <section className="p-4 text-gray-900 dark:text-white">
       {country.map((item) => (
         <div key={item.population} className="grid gap-8 md:grid-cols-2">
-          <article>
-            <img
-              src={item.flags.svg}
-              alt={`Flag of ${item.name.common}`}
-              className="shadow-lg"
-            />
-          </article>
-
-          <article>
+          <img
+            src={item.flags.svg}
+            alt={`Flag of ${item.name.common}`}
+            className="shadow-lg"
+          />
+          <div>
             <h1 className="mb-6 font-bold text-3xl">{item.name.official}</h1>
-            <ul className="mb-4 flex flex-col items-start gap-2 text-gray-700 dark:text-gray-300">
+            <ul className="mb-4 flex flex-col gap-2 text-gray-700 dark:text-gray-300">
               <li>Population: {item.population.toLocaleString()}</li>
               <li>Region: {item.region}</li>
               <li>Subregion: {item.subregion}</li>
@@ -57,23 +47,32 @@ export default function OneCountry({ countryName }) {
               </li>
               <li>Area: {item.area.toLocaleString()} km²</li>
             </ul>
-
-            <h3 className="mt-4 font-semibold text-lg mb-2">Borders:</h3>
-            <ul className="flex flex-wrap gap-2">
+            <h3 className="font-semibold text-lg">Borders:</h3>
+            <ul className="flex flex-wrap gap-2 mt-2">
               {item.borders ? (
-                item.borders.map((border, index) => (
+                item.borders.map((b, i) => (
                   <li
-                    key={index}
+                    key={i}
                     className="bg-white dark:bg-gray-700 p-2 rounded text-sm shadow"
                   >
-                    {border}
+                    {b}
                   </li>
                 ))
               ) : (
                 <li>No border countries</li>
               )}
             </ul>
-          </article>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                item.name.common
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              View on Map
+            </a>
+          </div>
         </div>
       ))}
     </section>
