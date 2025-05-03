@@ -17,6 +17,20 @@ export async function filterByRegion(region) {
   return res.data;
 }
 
+export async function filterByCurrancy(currency) {
+  const res = await axios.get(
+    `https://restcountries.com/v3.1/currency/${currency}`
+  );
+  return res.data;
+}
+
+export async function filterByLanguage(language) {
+  const res = await axios.get(
+    `https://restcountries.com/v3.1/lang/${language}`
+  );
+  return res.data;
+}
+
 export async function getCountryDetails(name) {
   const res = await axios.get(
     `https://restcountries.com/v3.1/name/${name}?fullText=true`
