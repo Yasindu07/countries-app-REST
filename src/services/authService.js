@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = process.env.APP_API_URL || "http://localhost:5001";
+const API_URL =
+  process.env.APP_API_URL || "https://country-app-backend-six.vercel.app";
 
 const authService = {
   login: async (email, password) => {
