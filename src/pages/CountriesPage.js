@@ -17,6 +17,7 @@ import {
   Heart,
 } from "lucide-react";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuth } from "../hooks/useAuth";
 
 const regions = [
   "Filter by Region",
@@ -29,6 +30,7 @@ const regions = [
 ];
 
 export default function CountriesPage() {
+  const { isAuthenticated } = useAuth();
   const [countries, setCountries] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [selectedCurrency, setSelectedCurrency] =
@@ -57,15 +59,25 @@ export default function CountriesPage() {
   useEffect(() => {
     loadCountries();
     const savedFavorites = localStorage.getItem("favoriteCountries");
-    if (savedFavorites) {
+    if (savedFavorites && isAuthenticated) {
       setFavorites(JSON.parse(savedFavorites));
     }
   }, []);
 
+  // Reset favorites when user logs out
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setFavorites([]);
+      setShowOnlyFavorites(false);
+    }
+  }, [isAuthenticated]);
+
   // Save favorites to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem("favoriteCountries", JSON.stringify(favorites));
-  }, [favorites]);
+    if (isAuthenticated) {
+      localStorage.setItem("favoriteCountries", JSON.stringify(favorites));
+    }
+  }, [favorites, isAuthenticated]);
 
   useEffect(() => {
     if (countries.length > 0) {
@@ -172,7 +184,7 @@ export default function CountriesPage() {
     try {
       const currencyCode = currencyMap[currency];
       if (!currencyCode) return;
-      const data = await filterByCurrancy(currencyCode);
+      const data = await filterByCurrancy(currencyCode); // Changed to filterByCurrancy
       setCountries(data);
       setCurrentPage(1);
       setSelectedLanguage("Filter by Language");
@@ -228,7 +240,6 @@ export default function CountriesPage() {
     setCurrentPage(1);
   }
 
-  // Filter countries to show only favorites if the toggle is on
   const filteredCountries = showOnlyFavorites
     ? countries.filter((country) => favorites.includes(country.name.common))
     : countries;

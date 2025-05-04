@@ -1,3 +1,4 @@
+// AuthProvider.js
 import { createContext, useState, useEffect } from "react";
 import authService from "../services/authService";
 
@@ -9,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is already logged in
     const token = localStorage.getItem("token");
     if (token) {
       const userData = JSON.parse(localStorage.getItem("user") || "null");
@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("favoriteCountries"); // Clear favorite countries
     setUser(null);
     setIsAuthenticated(false);
   };

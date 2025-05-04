@@ -1,11 +1,12 @@
+// Header.js
 import { useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { Globe, User, LogOut } from "lucide-react";
-import { useAuth } from "../hooks/useAuth"; // ✅ Access user & logout
+import { useAuth } from "../hooks/useAuth";
 
 export default function Header({ darkMode, toggleDarkMode }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth(); // ✅
+  const { user, isAuthenticated, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -68,7 +69,8 @@ export default function Header({ darkMode, toggleDarkMode }) {
                       Hello, {user?.name}
                     </div>
                     <button
-                      className="flex w-full items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="flex w-full items-center px-4 py-2 text-sm text-gray-7
+                      00 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                       onClick={handleLogout}
                       role="menuitem"
                     >
