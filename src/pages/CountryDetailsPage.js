@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getCountryDetails } from "../services/countryService";
 import { MapPin } from "lucide-react";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function CountryDetailsPage({ countryName }) {
   const [country, setCountry] = useState(null);
@@ -13,8 +14,7 @@ export default function CountryDetailsPage({ countryName }) {
     fetchData();
   }, [countryName]);
 
-  if (!country)
-    return <h1 className="text-center text-2xl font-bold">Loading...</h1>;
+  if (!country) return <LoadingSpinner />;
 
   return (
     <section className="p-4 text-gray-900 dark:text-white border-r-10">
